@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 // Load environment variables
 dotenv.config();
 
+
 const config: sql.config = {
     server: process.env.DB_SERVER || 'localhost',
     authentication: {
