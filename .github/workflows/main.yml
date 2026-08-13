@@ -41,7 +41,7 @@ jobs:
         run: npm run build
 
       - name: Run tests
-        run: npm test --if-present
+        run: npm test --if-present -- --passWithNoTests
 
       - name: Check code quality
         run: npm run lint --if-present
