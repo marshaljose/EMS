@@ -39,3 +39,9 @@ jobs:
 
       - name: Build TypeScript
         run: npm run build
+
+      - name: Run tests
+        run: npm test --if-present
+
+      - name: Check code quality
+        run: npm run lint --if-present
