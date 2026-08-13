@@ -7,6 +7,7 @@ import employeesRouter from './routes/employees';
 // Load environment variables
 dotenv.config();
 
+
 const app: Express = express();
 const PORT = process.env.API_PORT || 3000;
 
