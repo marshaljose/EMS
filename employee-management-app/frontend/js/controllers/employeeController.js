@@ -3,6 +3,8 @@ angular.module('employeeApp')
     .controller('EmployeeController', ['$scope', '$http', 'EmployeeService', 
         function($scope, $http, EmployeeService) {
             
+
+            
             // Initialize variables
             $scope.employees = [];
             $scope.loading = false;
