@@ -4,7 +4,6 @@ import { body, validationResult } from 'express-validator';
 /**
  * Validation middleware for employee data
  */
-
 export const validateEmployee = [
     body('FirstName').trim().notEmpty().withMessage('First name is required'),
     body('LastName').trim().notEmpty().withMessage('Last name is required'),
