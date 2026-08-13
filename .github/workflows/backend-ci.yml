@@ -5,13 +5,13 @@ on:
     branches:
       - main
     paths:
-      - 'backend/**'
+      - 'employee-management-app/backend/**'
 
   push:
     branches:
       - main
     paths:
-      - 'backend/**'
+      - 'employee-management-app/backend/**'
 
 jobs:
   build:
@@ -20,7 +20,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: backend
+        working-directory: employee-management-app/backend
 
     steps:
 
@@ -32,7 +32,7 @@ jobs:
         with:
           node-version: 18
           cache: npm
-          cache-dependency-path: backend/package-lock.json
+          cache-dependency-path: employee-management-app/backend/package-lock.json
 
       - name: Install dependencies
         run: npm ci
