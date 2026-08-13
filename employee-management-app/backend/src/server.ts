@@ -35,11 +35,12 @@ app.use((req, res) => {
 });
 
 // Error handler
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((err: unknown, req: express.Request, res: express.Response, _next: express.NextFunction) => {
+    const errorMessage = err instanceof Error ? err.message : 'Unknown error';
     console.error('Unhandled error:', err);
     res.status(500).json({ 
         message: 'Internal server error', 
-        error: err.message 
+        error: errorMessage 
     });
 });
 
