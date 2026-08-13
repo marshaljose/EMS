@@ -2,6 +2,14 @@ import { Request, Response } from 'express';
 import sql from 'mssql';
 import { getPool } from '../database';
 
+function getErrorMessage(error: unknown): string {
+    if (error instanceof Error) {
+        return error.message;
+    }
+
+    return 'Unknown error';
+}
+
 /**
  * Get all employees
  */
@@ -13,11 +21,11 @@ export async function getAllEmployees(req: Request, res: Response): Promise<void
             .query('SELECT * FROM Employees WHERE IsActive = 1 ORDER BY EmployeeID DESC');
         
         res.status(200).json(result.recordset);
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('Error fetching employees:', error);
         res.status(500).json({ 
             message: 'Error fetching employees', 
-            error: error.message 
+            error: getErrorMessage(error) 
         });
     }
 }
@@ -41,11 +49,11 @@ export async function getEmployeeById(req: Request, res: Response): Promise<void
         }
         
         res.status(200).json(result.recordset[0]);
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('Error fetching employee:', error);
         res.status(500).json({ 
             message: 'Error fetching employee', 
-            error: error.message 
+            error: getErrorMessage(error) 
         });
     }
 }
@@ -85,11 +93,11 @@ export async function createEmployee(req: Request, res: Response): Promise<void>
             message: 'Employee created successfully',
             EmployeeID: result.recordset[0].EmployeeID
         });
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('Error creating employee:', error);
         res.status(500).json({ 
             message: 'Error creating employee', 
-            error: error.message 
+            error: getErrorMessage(error) 
         });
     }
 }
@@ -140,11 +148,11 @@ export async function updateEmployee(req: Request, res: Response): Promise<void>
             .execute('sp_UpdateEmployee');
         
         res.status(200).json({ message: 'Employee updated successfully' });
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('Error updating employee:', error);
         res.status(500).json({ 
             message: 'Error updating employee', 
-            error: error.message 
+            error: getErrorMessage(error) 
         });
     }
 }
@@ -174,11 +182,11 @@ export async function deleteEmployee(req: Request, res: Response): Promise<void>
             .execute('sp_DeleteEmployee');
         
         res.status(200).json({ message: 'Employee deleted successfully' });
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('Error deleting employee:', error);
         res.status(500).json({ 
             message: 'Error deleting employee', 
-            error: error.message 
+            error: getErrorMessage(error) 
         });
     }
 }
