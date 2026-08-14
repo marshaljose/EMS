@@ -44,6 +44,7 @@ app.use((err: unknown, req: express.Request, res: express.Response, _next: expre
     });
 });
 
+
 // Start server
 async function startServer() {
     try {
