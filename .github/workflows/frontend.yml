@@ -1,0 +1,70 @@
+name: Frontend CI/CD
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "employee-management-app/frontend/**"
+      - ".github/workflows/frontend.yml"
+
+  push:
+    branches:
+      - main
+    paths:
+      - "employee-management-app/frontend/**"
+      - ".github/workflows/frontend.yml"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: frontend-pages
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: employee-management-app/frontend
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Validate frontend static files
+        run: |
+          test -f index.html
+          test -d css
+          test -d js
+          npx --yes htmlhint "**/*.html"
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: validate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload frontend artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: employee-management-app/frontend
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
